@@ -1,0 +1,58 @@
+
+
+<section>
+  <div class='container'>
+    <div class='row'>
+      <div class="col-sm-12">
+        <p>
+          This page allows you to renew your rental contract and extend the expiration
+          date of your rental. Put in the GUID of the device you are renting and click
+          the renewal button. The GUID can be found in the title of the original listing
+          that you purchased on OpenBazaar.
+        </p>
+        <p>
+          When you click the button, a new listing will be created on the P2P VPS
+          OpenBazaar store. It will say 'Renewal' followed by the GUID you enter
+          in the box below. Purchase that listing, and your rental will be renewed.
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+
+        <form>
+          <div class="form-group">
+            <label for="guid">GUID</label>
+            <input type="text" class="form-control" id="guid" placeholder="5a47e04508f02000c331b89f">
+          </div>
+
+          <button class="btn btn-default" onclick="renew()" type="button">Create Renewal Listing</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script type="text/javascript">
+  function renew() {
+    console.log("Button was clicked!");
+
+    let guid = $('#guid').val();
+
+    // Error handling/Validation
+    if(guid == "") {
+      alert('Please enter a valid GUID!');
+      return;
+    }
+
+    $.get('/api/rentedDevices/renew/'+guid, '', function(data) {
+      debugger;
+      console.log('returned data: '+JSON.stringify(data,null,2));
+      $('#guid').val('');
+      alert('Success! Renewal submitted to the OpenBazaar store.');
+    });
+  }
+</script>
